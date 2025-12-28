@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // UI Components
     private SearchView searchView;
     private Button logoutButton;
-    private FloatingActionButton layersFab, myLocationFab, directionsFab, googleEarthFab, placesFab, qrScanFab;
+    private FloatingActionButton layersFab, myLocationFab, directionsFab, googleEarthFab, placesFab, qrScanFab, geminiFab;
     private ImageButton zoomInButton, zoomOutButton;
 
     private final ActivityResultLauncher<Intent> placesLauncher = registerForActivityResult(
@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleEarthFab = findViewById(R.id.googleEarthFab);
         placesFab = findViewById(R.id.placesFab);
         qrScanFab = findViewById(R.id.qrScanFab);
+        geminiFab = findViewById(R.id.geminiFab);
         zoomInButton = findViewById(R.id.zoomInButton);
         zoomOutButton = findViewById(R.id.zoomOutButton);
 
@@ -227,6 +228,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             integrator.setCameraId(0);
             integrator.setBeepEnabled(true);
             qrCodeScanner.launch(integrator.createScanIntent());
+        });
+
+        geminiFab.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, GeminiActivity.class));
         });
 
         if (googleMap != null) {

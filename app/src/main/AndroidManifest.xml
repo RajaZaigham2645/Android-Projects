@@ -37,6 +37,7 @@
             android:name=".MainActivity"
             android:launchMode="singleTop" />
         <activity android:name=".PlacesActivity" />
+        <activity android:name=".GeminiActivity" />
     </application>
 
 </manifest>
