@@ -1,14 +1,13 @@
 package com.example.androidproject;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -30,11 +29,10 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.io.IOException;
 import java.util.List;
@@ -67,16 +65,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
 
-    private final ActivityResultLauncher<Intent> qrCodeScanner = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
+    private final ActivityResultLauncher<ScanOptions> qrCodeScanner = registerForActivityResult(new ScanContract(),
             result -> {
-                IntentResult scanResult = IntentIntegrator.parseActivityResult(result.getResultCode(), result.getData());
-                if (scanResult != null) {
-                    if (scanResult.getContents() == null) {
-                        Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
-                    } else {
-                        handleQrCodeResult(scanResult.getContents());
-                    }
+                if (result.getContents() == null) {
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                } else {
+                    handleQrCodeResult(result.getContents());
                 }
             });
 
@@ -99,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 handleScannedLocation(latLng);
                 return;
             } catch (NumberFormatException e) {
+                Log.w("MainActivity", "QR code content is not a valid coordinate pair: " + contents);
                 // Not a valid coordinate pair, proceed to treat as a location name
             }
         }
@@ -112,12 +107,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Pattern pattern = Pattern.compile("(?:@|q=)(-?[0-9.]+),(-?[0-9.]+)");
         Matcher matcher = pattern.matcher(url);
         if (matcher.find()) {
-            try {
-                double latitude = Double.parseDouble(matcher.group(1));
-                double longitude = Double.parseDouble(matcher.group(2));
-                return new LatLng(latitude, longitude);
-            } catch (NumberFormatException e) {
-                return null;
+            String latString = matcher.group(1);
+            String lonString = matcher.group(2);
+            if (latString != null && lonString != null) {
+                try {
+                    double latitude = Double.parseDouble(latString);
+                    double longitude = Double.parseDouble(lonString);
+                    return new LatLng(latitude, longitude);
+                } catch (NumberFormatException e) {
+                    Log.e("MainActivity", "Error parsing lat/lon from QR code", e);
+                    return null;
+                }
             }
         }
         return null;
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent); // Update the activity's intent
         handleIntent(intent); // Handle the new intent
@@ -222,17 +222,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         placesFab.setOnClickListener(v -> placesLauncher.launch(new Intent(MainActivity.this, PlacesActivity.class)));
 
         qrScanFab.setOnClickListener(v -> {
-            IntentIntegrator integrator = new IntentIntegrator(this);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-            integrator.setPrompt("Scan a QR code for location");
-            integrator.setCameraId(0);
-            integrator.setBeepEnabled(true);
-            qrCodeScanner.launch(integrator.createScanIntent());
+            ScanOptions options = new ScanOptions();
+            options.setDesiredBarcodeFormats(ScanOptions.QR_CODE);
+            options.setPrompt("Scan a QR code for location");
+            options.setCameraId(0);
+            options.setBeepEnabled(true);
+            qrCodeScanner.launch(options);
         });
 
-        geminiFab.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, GeminiActivity.class));
-        });
+        geminiFab.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GeminiActivity.class)));
 
         if (googleMap != null) {
             googleMap.setOnMapClickListener(latLng -> addMarkerAtLocation(latLng, "Tapped Location"));
@@ -363,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(this, "Location not found: " + locationName, Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("MainActivity", "Geocoder error during search", e);
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -377,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             googleMap.addMarker(new MarkerOptions().position(latLng).title(title));
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("MainActivity", "Geocoder error getting address", e);
             Toast.makeText(this, "Error getting address", Toast.LENGTH_SHORT).show();
         }
     }
@@ -394,8 +392,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select Map Type");
         builder.setSingleChoiceItems(mapTypes, currentMapTypeIndex, (dialog, which) -> {
-            int mapType = GoogleMap.MAP_TYPE_NORMAL;
+            int mapType;
             switch(which) {
+                default:
                 case 0:
                     mapType = GoogleMap.MAP_TYPE_NORMAL;
                     break;
