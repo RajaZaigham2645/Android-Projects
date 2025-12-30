@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // UI Components
     private SearchView searchView;
     private Button logoutButton;
-    private FloatingActionButton layersFab, myLocationFab, directionsFab, googleEarthFab, placesFab, qrScanFab, geminiFab, spotifyFab, menuFab;
+    private FloatingActionButton layersFab, myLocationFab, directionsFab, googleEarthFab, placesFab, qrScanFab, geminiFab, spotifyFab, menuFab, chatGptFab;
     private ImageButton zoomInButton, zoomOutButton;
     private MaterialCardView leftMenuContainer;
 
@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         qrScanFab = findViewById(R.id.qrScanFab);
         geminiFab = findViewById(R.id.geminiFab);
         spotifyFab = findViewById(R.id.spotifyFab);
+        chatGptFab = findViewById(R.id.chatGptFab);
         zoomInButton = findViewById(R.id.zoomInButton);
         zoomOutButton = findViewById(R.id.zoomOutButton);
         menuFab = findViewById(R.id.menuFab);
@@ -227,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleEarthFab.setOnClickListener(v -> startGoogleEarth());
         placesFab.setOnClickListener(v -> placesLauncher.launch(new Intent(MainActivity.this, PlacesActivity.class)));
         spotifyFab.setOnClickListener(v -> startSpotify());
+        chatGptFab.setOnClickListener(v -> startChatGpt());
 
         qrScanFab.setOnClickListener(v -> {
             ScanOptions options = new ScanOptions();
@@ -345,6 +347,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(spotifyIntent);
         } else {
             Toast.makeText(this, "Spotify is not installed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void startChatGpt() {
+        Intent chatGptIntent = getPackageManager().getLaunchIntentForPackage("com.openai.chatgpt");
+        if (chatGptIntent != null) {
+            startActivity(chatGptIntent);
+        } else {
+            Toast.makeText(this, "ChatGPT is not installed", Toast.LENGTH_SHORT).show();
         }
     }
 

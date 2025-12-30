@@ -129,6 +129,13 @@
                     android:layout_marginBottom="16dp"
                     android:contentDescription="Gemini"
                     app:srcCompat="@drawable/gemini" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/chatGptFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="ChatGPT"
+                    app:srcCompat="@android:drawable/ic_dialog_email" />
 
                 <Button
                     android:id="@+id/logoutButton"
