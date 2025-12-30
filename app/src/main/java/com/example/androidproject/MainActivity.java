@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.journeyapps.barcodescanner.ScanContract;
@@ -51,8 +53,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // UI Components
     private SearchView searchView;
     private Button logoutButton;
-    private FloatingActionButton layersFab, myLocationFab, directionsFab, googleEarthFab, placesFab, qrScanFab, geminiFab, spotifyFab;
+    private FloatingActionButton layersFab, myLocationFab, directionsFab, googleEarthFab, placesFab, qrScanFab, geminiFab, spotifyFab, menuFab;
     private ImageButton zoomInButton, zoomOutButton;
+    private MaterialCardView leftMenuContainer;
 
     private final ActivityResultLauncher<Intent> placesLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -170,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         spotifyFab = findViewById(R.id.spotifyFab);
         zoomInButton = findViewById(R.id.zoomInButton);
         zoomOutButton = findViewById(R.id.zoomOutButton);
+        menuFab = findViewById(R.id.menuFab);
+        leftMenuContainer = findViewById(R.id.leftMenuContainer);
 
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -233,6 +238,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         geminiFab.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GeminiActivity.class)));
+
+        menuFab.setOnClickListener(v -> {
+            if (leftMenuContainer.getVisibility() == View.VISIBLE) {
+                leftMenuContainer.setVisibility(View.GONE);
+            } else {
+                leftMenuContainer.setVisibility(View.VISIBLE);
+            }
+        });
 
         if (googleMap != null) {
             googleMap.setOnMapClickListener(latLng -> addMarkerAtLocation(latLng, "Tapped Location"));

@@ -73,51 +73,78 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/directionsFab"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/leftMenuContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="Directions"
-            app:srcCompat="@drawable/ic_directions" />
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            app:contentPadding="8dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/directionsFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="Directions"
+                    app:srcCompat="@drawable/ic_directions" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/googleEarthFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="Open Google Earth"
+                    app:srcCompat="@drawable/ic_google_earth" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/placesFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="Suggest Places"
+                    app:srcCompat="@drawable/ic_places" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/qrScanFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="Scan QR Code"
+                    app:srcCompat="@drawable/ic_qr_code" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/geminiFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="Gemini"
+                    app:srcCompat="@drawable/gemini" />
+
+                <Button
+                    android:id="@+id/logoutButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Logout" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/googleEarthFab"
+            android:id="@+id/menuFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:contentDescription="Open Google Earth"
-            app:srcCompat="@drawable/ic_google_earth" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/placesFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:contentDescription="Suggest Places"
-            app:srcCompat="@drawable/ic_places" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/qrScanFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:contentDescription="Scan QR Code"
-            app:srcCompat="@drawable/ic_qr_code" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/geminiFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:contentDescription="Gemini"
-            app:srcCompat="@drawable/gemini" />
-
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Logout" />
+            android:contentDescription="Menu"
+            app:srcCompat="@android:drawable/ic_menu_more" />
 
     </LinearLayout>
 
