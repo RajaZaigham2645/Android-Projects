@@ -1,0 +1,55 @@
+Google Maps–Based Android Application
+(Android Development LAB)
+
+
+INTRODUCTION
+This project is an Android-based application developed as part of the Android Development Lab. The application is inspired by Google Maps and provides users with interactive mapping features. It integrates Google Maps API, Google Earth visualization, Firebase Authentication, and multimedia functionality to deliver a modern and engaging mobile experience.
+
+PROJECT OVERVIEW
+The application allows users to view real-time maps, switch between default and satellite views, and explore locations using Google Earth via WebView. A secure Firebase authentication system ensures safe user login, while background music playback enhances the overall user experience.
+
+OBJECTIVES OF THE PROJECT
+• To design a Google Maps–like Android application
+• To integrate Google Maps API for live map rendering
+• To provide default and satellite map modes
+• To embed Google Earth for 3D visualization
+• To implement Firebase Authentication
+• To add background music using Android MediaPlayer
+• To use Java for backend logic and XML for UI
+
+TECHNOLOGIES USED
+Java:
+Used for implementing application logic, handling map operations, authentication, and music playback.
+
+XML:
+Used for designing user-friendly layouts and UI components.
+
+Google Maps API:
+Provides map rendering, navigation features, and map mode switching.
+
+Firebase Authentication:
+Used for secure login and user management.
+
+WebView:
+Used to integrate Google Earth for 3D visualization.
+
+Android MediaPlayer:
+Used for background music playback.
+
+FEATURES OF THE APPLICATION
+• Interactive Google Maps interface
+• Default and Satellite view switching
+• Google Earth 3D visualization
+• Secure Firebase login system
+• Background music playback
+• Clean XML-based UI
+• Efficient Java backend logic
+
+MUSIC INTEGRATION
+The background music feature is implemented using Android MediaPlayer. Music plays smoothly while the user interacts with the map. Playback automatically pauses and resumes based on the app lifecycle, improving user engagement.
+
+EXPECTED OUTCOME
+The final application delivers a feature-rich mapping experience with secure authentication, smooth navigation, and enhanced usability through multimedia integration.
+
+CONCLUSION
+This project demonstrates practical Android development skills by combining mapping, authentication, and multimedia features. It serves as a complete academic project and provides real-world experience with modern Android technologies.
