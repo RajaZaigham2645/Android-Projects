@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidProject</string>
+    <string name="gemini_logo_description">Gemini Logo</string>
+    <string name="send_button_description">Send message</string>
 </resources>
