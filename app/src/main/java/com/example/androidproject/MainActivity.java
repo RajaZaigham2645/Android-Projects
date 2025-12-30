@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // UI Components
     private SearchView searchView;
     private Button logoutButton;
-    private FloatingActionButton layersFab, myLocationFab, directionsFab, googleEarthFab, placesFab, qrScanFab, geminiFab;
+    private FloatingActionButton layersFab, myLocationFab, directionsFab, googleEarthFab, placesFab, qrScanFab, geminiFab, spotifyFab;
     private ImageButton zoomInButton, zoomOutButton;
 
     private final ActivityResultLauncher<Intent> placesLauncher = registerForActivityResult(
@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         placesFab = findViewById(R.id.placesFab);
         qrScanFab = findViewById(R.id.qrScanFab);
         geminiFab = findViewById(R.id.geminiFab);
+        spotifyFab = findViewById(R.id.spotifyFab);
         zoomInButton = findViewById(R.id.zoomInButton);
         zoomOutButton = findViewById(R.id.zoomOutButton);
 
@@ -220,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         directionsFab.setOnClickListener(v -> startGoogleMapsDirections());
         googleEarthFab.setOnClickListener(v -> startGoogleEarth());
         placesFab.setOnClickListener(v -> placesLauncher.launch(new Intent(MainActivity.this, PlacesActivity.class)));
+        spotifyFab.setOnClickListener(v -> startSpotify());
 
         qrScanFab.setOnClickListener(v -> {
             ScanOptions options = new ScanOptions();
@@ -321,6 +323,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(earthIntent);
         } else {
             Toast.makeText(this, "Google Earth is not installed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void startSpotify() {
+        Intent spotifyIntent = getPackageManager().getLaunchIntentForPackage("com.spotify.music");
+        if (spotifyIntent != null) {
+            startActivity(spotifyIntent);
+        } else {
+            Toast.makeText(this, "Spotify is not installed", Toast.LENGTH_SHORT).show();
         }
     }
 
