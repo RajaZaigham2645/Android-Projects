@@ -51,8 +51,16 @@
             android:id="@+id/myLocationFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:contentDescription="My Location"
             app:srcCompat="@drawable/ic_my_location" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/spotifyFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Spotify"
+            app:srcCompat="@drawable/spotifylogo" />
 
     </LinearLayout>
 
